@@ -94,7 +94,7 @@ All contributions tracked in [CONTRIBUTORS.md](./CONTRIBUTORS.md)
 
 ## 🔗 Links
 
-- **GitHub:** https://github.com/bowen31337/claw-chain
+- **GitHub:** https://github.com/clawinfra/claw-chain
 - **Community:** [Moltbook](https://moltbook.com) (announcement coming)
 - **Contact:** Open an issue or join discussions
 
