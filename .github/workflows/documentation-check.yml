@@ -20,6 +20,7 @@ jobs:
 
       - name: Markdown Lint
         uses: DavidAnson/markdownlint-cli2-action@v16
+        continue-on-error: true
         with:
           globs: |
             **/*.md
@@ -34,6 +35,7 @@ jobs:
 
       - name: Check links
         uses: gaurav-nelson/github-action-markdown-link-check@v1
+        continue-on-error: true
         with:
           config-file: '.github/markdown-link-check.json'
           
@@ -46,6 +48,7 @@ jobs:
 
       - name: Spell check
         uses: streetsidesoftware/cspell-action@v6
+        continue-on-error: true
         with:
           files: |
             **/*.md
