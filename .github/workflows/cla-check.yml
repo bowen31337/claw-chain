@@ -27,8 +27,9 @@ jobs:
           path-to-document: 'https://github.com/clawinfra/claw-chain/blob/main/CLA.md'
           branch: 'main'
           allowlist: 'bot*,dependabot*,renovate*,github-actions*'
-          remote-organization-name: 'clawinfra'
-          remote-repository-name: 'cla-signatures'
+          # Store signatures in current repo for now
+          # remote-organization-name: 'clawinfra'
+          # remote-repository-name: 'cla-signatures'
           create-file-commit-message: 'chore: Add CLA signature for $pullRequestNo'
           signed-commit-message: 'I have read and agree to the CLA'
           custom-notsigned-prcomment: |

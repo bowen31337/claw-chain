@@ -22,6 +22,7 @@ jobs:
           node-version: '20'
 
       - name: Update contributor stats
+        continue-on-error: true
         run: |
           # Calculate contribution score for the PR author
           AUTHOR="${{ github.event.pull_request.user.login }}"
@@ -55,6 +56,7 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Notify on first contribution
+        continue-on-error: true
         run: |
           AUTHOR="${{ github.event.pull_request.user.login }}"
           
