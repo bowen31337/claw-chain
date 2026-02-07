@@ -1,0 +1,60 @@
+[package]
+name = "clawchain-node"
+version = "0.1.0"
+description = "ClawChain node - agent-native Layer 1 blockchain"
+authors.workspace = true
+edition.workspace = true
+repository.workspace = true
+license.workspace = true
+build = "build.rs"
+
+[dependencies]
+clap = { workspace = true }
+futures = { workspace = true }
+jsonrpsee = { workspace = true }
+log = { workspace = true, default-features = true }
+serde_json = { workspace = true, features = ["std"] }
+serde = { workspace = true }
+
+# Substrate client
+sc-basic-authorship = { workspace = true }
+sp-blockchain = { version = "43.0" }
+sc-chain-spec = { workspace = true }
+sc-cli = { workspace = true }
+sc-client-api = { workspace = true }
+sc-consensus = { workspace = true }
+sc-consensus-aura = { workspace = true }
+sc-consensus-grandpa = { workspace = true }
+sc-executor = { workspace = true }
+sc-keystore = { workspace = true }
+sc-network = { workspace = true }
+sc-offchain = { workspace = true }
+sc-service = { workspace = true }
+sc-telemetry = { workspace = true }
+sc-transaction-pool = { workspace = true }
+sc-transaction-pool-api = { workspace = true }
+
+# Substrate primitives
+sp-api = { workspace = true, default-features = true }
+sp-block-builder = { workspace = true, default-features = true }
+sp-consensus-aura = { workspace = true, default-features = true }
+sp-consensus-grandpa = { workspace = true, default-features = true }
+sp-core = { workspace = true, default-features = true }
+sp-io = { workspace = true, default-features = true }
+sp-keyring = { workspace = true }
+sp-runtime = { workspace = true, default-features = true }
+sp-timestamp = { version = "40.0" }
+
+# Frame
+frame-system = { workspace = true, default-features = true }
+pallet-transaction-payment = { workspace = true, default-features = true }
+
+# RPC
+substrate-frame-rpc-system = { workspace = true }
+pallet-transaction-payment-rpc = { workspace = true }
+
+# Local
+clawchain-runtime = { path = "../runtime" }
+
+[build-dependencies]
+substrate-build-script-utils = { workspace = true }
