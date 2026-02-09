@@ -1,0 +1,66 @@
+# ClawChain Node - Production Validator
+# Managed by Podman Quadlet (systemd)
+#
+# Install: Copy to ~/.config/containers/systemd/
+# Reload: systemctl --user daemon-reload
+# Start: systemctl --user start clawchain-node
+# Status: systemctl --user status clawchain-node
+# Logs: journalctl --user -u clawchain-node -f
+
+[Unit]
+Description=ClawChain Substrate Node (Validator)
+Documentation=https://github.com/clawinfra/claw-chain
+After=network-online.target
+Wants=network-online.target
+
+[Container]
+Image=localhost/clawchain-node:latest
+ContainerName=clawchain-node
+
+# Port mappings
+PublishPort=9944:9944
+PublishPort=9615:9615
+PublishPort=30333:30333
+
+# Persistent data volume
+Volume=clawchain-data.volume:/data
+
+# Environment variables
+Environment=RUST_LOG=info
+Environment=RUST_BACKTRACE=1
+
+# Node arguments (override default CMD)
+Exec=--validator \
+     --base-path /data \
+     --chain dev \
+     --name "ClawChain-Validator" \
+     --rpc-external \
+     --rpc-cors all \
+     --rpc-methods safe \
+     --rpc-port 9944 \
+     --prometheus-external \
+     --prometheus-port 9615 \
+     --port 30333
+
+# Health check
+HealthCmd=curl -sf http://localhost:9944/health || exit 1
+HealthInterval=30s
+HealthTimeout=10s
+HealthRetries=3
+HealthStartPeriod=60s
+
+# Auto-update when image changes
+AutoUpdate=registry
+
+# Security options
+SecurityLabelDisable=false
+# Run as non-root user (defined in Containerfile)
+
+[Service]
+Restart=always
+RestartSec=10
+TimeoutStartSec=300
+TimeoutStopSec=60
+
+[Install]
+WantedBy=default.target

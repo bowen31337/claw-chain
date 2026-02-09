@@ -1,0 +1,6 @@
+# ClawChain persistent data volume
+# Managed by Podman Quadlet
+
+[Volume]
+# Volume will be created automatically by Podman
+# Default location: ~/.local/share/containers/storage/volumes/clawchain-data

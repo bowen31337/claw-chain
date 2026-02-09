@@ -1,0 +1,50 @@
+# Prometheus Monitoring for ClawChain
+# Managed by Podman Quadlet (systemd)
+#
+# Optional lightweight monitoring stack
+# Alternative: Use Grafana Cloud (free tier)
+#
+# Install: Copy to ~/.config/containers/systemd/
+# Reload: systemctl --user daemon-reload
+# Start: systemctl --user start prometheus
+# Access: http://localhost:9090
+
+[Unit]
+Description=Prometheus Monitoring
+Documentation=https://prometheus.io/docs/
+After=network-online.target clawchain-node.service
+Wants=clawchain-node.service
+
+[Container]
+Image=docker.io/prom/prometheus:latest
+ContainerName=prometheus
+
+# Port mapping
+PublishPort=9090:9090
+
+# Configuration and data
+Volume=%h/claw-chain/deploy/monitoring/prometheus.yml:/etc/prometheus/prometheus.yml:ro,Z
+Volume=prometheus-data.volume:/prometheus
+
+# Command arguments
+Exec=--config.file=/etc/prometheus/prometheus.yml \
+     --storage.tsdb.path=/prometheus \
+     --storage.tsdb.retention.time=30d \
+     --web.console.libraries=/usr/share/prometheus/console_libraries \
+     --web.console.templates=/usr/share/prometheus/consoles \
+     --web.enable-lifecycle
+
+# Network: Connect to clawchain-node
+Network=clawchain-node.service
+
+# Health check
+HealthCmd=wget --no-verbose --tries=1 --spider http://localhost:9090/-/healthy || exit 1
+HealthInterval=30s
+HealthTimeout=5s
+
+[Service]
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=default.target

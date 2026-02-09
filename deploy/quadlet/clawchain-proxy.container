@@ -1,0 +1,46 @@
+# ClawChain Nginx Reverse Proxy
+# Managed by Podman Quadlet (systemd)
+#
+# Provides WebSocket support, rate limiting, and SSL termination
+#
+# Install: Copy to ~/.config/containers/systemd/
+# Reload: systemctl --user daemon-reload
+# Start: systemctl --user start clawchain-proxy
+# Status: systemctl --user status clawchain-proxy
+
+[Unit]
+Description=ClawChain Nginx Reverse Proxy
+Documentation=https://github.com/clawinfra/claw-chain
+After=network-online.target clawchain-node.service
+Requires=clawchain-node.service
+
+[Container]
+Image=docker.io/nginx:1.27-alpine
+ContainerName=clawchain-proxy
+
+# Port mappings
+PublishPort=80:80
+PublishPort=443:443
+
+# Mount nginx configuration
+Volume=%h/claw-chain/deploy/nginx/nginx.conf:/etc/nginx/conf.d/default.conf:ro,Z
+
+# Optional: Mount SSL certificates
+# Volume=/etc/letsencrypt:/etc/letsencrypt:ro,Z
+
+# Network: Connect to same network as clawchain-node
+# Quadlet automatically creates a shared network for containers
+Network=clawchain-node.service
+
+# Health check
+HealthCmd=curl -sf http://localhost:80/health || exit 1
+HealthInterval=30s
+HealthTimeout=5s
+
+[Service]
+Restart=always
+RestartSec=10
+TimeoutStartSec=60
+
+[Install]
+WantedBy=default.target

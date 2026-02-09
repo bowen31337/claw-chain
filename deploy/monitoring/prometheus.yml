@@ -1,0 +1,30 @@
+# Prometheus configuration for ClawChain monitoring
+# Scrapes metrics from clawchain-node
+
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+  external_labels:
+    cluster: 'clawchain-testnet'
+    environment: 'production'
+
+scrape_configs:
+  # ClawChain node metrics
+  - job_name: 'clawchain'
+    static_configs:
+      - targets: ['clawchain-node:9615']
+        labels:
+          instance: 'validator-1'
+          node_type: 'validator'
+
+  # Prometheus self-monitoring
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
+
+# Optional: Remote write to Grafana Cloud
+# remote_write:
+#   - url: https://prometheus-prod-01-eu-west-0.grafana.net/api/prom/push
+#     basic_auth:
+#       username: <YOUR_GRAFANA_INSTANCE_ID>
+#       password: <YOUR_GRAFANA_API_KEY>

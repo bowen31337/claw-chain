@@ -1,0 +1,6 @@
+# Prometheus persistent data volume
+# Managed by Podman Quadlet
+
+[Volume]
+# Volume will be created automatically by Podman
+# Stores time-series metrics data
