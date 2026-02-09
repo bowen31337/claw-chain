@@ -40,6 +40,9 @@ Exec=--validator \
      --rpc-port 9944 \
      --prometheus-external \
      --prometheus-port 9615 \
+     --state-pruning 256 \
+     --blocks-pruning archive-canonical \
+     --database paritydb \
      --port 30333
 
 # Health check
